@@ -34,3 +34,5 @@ Important parameters set in this script are:
 - A boolean whsether the input spikes are made or load from the 'Spiking Structures' folder
 - The input type, choose between 'ConvTrace', 'PSTH' or 'spikes'
 - The percentage of excitatory neurons. When not 0, Dale's law is automatically applied.
+
+bjlawdfkjalkdhliajdghkALJSGHDFLIKwjehglra vlhSGvm ;oJAHG WF
