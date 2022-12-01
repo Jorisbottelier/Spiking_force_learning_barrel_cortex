@@ -4,6 +4,6 @@
 Gs = 1:0.5:5;
 parfor i=1:length(Gs)
     filename = ['simtest' num2str(i)];
-    run_sim(2000, 200, 600, 100, 1, 1, 5, 1,...
+    run_sim(2000, 200, 600, 100, 1, 1, Gs(i), 1,...
     1, 0.05, 0, true, true, 'spikes', ['.' filesep 'Output' filesep filename]);
 end
