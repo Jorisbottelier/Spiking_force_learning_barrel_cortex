@@ -1,4 +1,4 @@
-% Creates plots for the initialized weight matrices.
+%% Creates plots for the initialized weight matrices.
 
 % For 1 < G < 5:
 
@@ -67,7 +67,7 @@
 % end
 
 
-% Finds and calculates the number of connections for each neuron:
+%% Finds and calculates the number of connections for each neuron:
 
 % G_vals = 1:0.5:5;
 % for i=1:length(G_vals)
@@ -85,26 +85,26 @@
 % end
 
 
-% Finds and plots the eigenvalues of the static weight matrix:
+%% Finds and plots the eigenvalues of the static weight matrix:
 
 %For G between 1 and 5:
  
-G_vals = 1:0.5:5;
-for i=1:length(G_vals)
-     filename = ['Win_1G_' num2str(G_vals(i)) 'Q_1Winp_1Pexc_0.mat'];
-     load(filename);
-     plotname = ['Network ' num2str(i) ', test accuracy: ' num2str(training_output.acc)];
-     eigenvalues = eig(training_output.weights.static);
-     X = real(eigenvalues);
-     Y = imag(eigenvalues);
-     subplot(3, 3, i);
-     scatter(X,Y, 4, '.', 'black');
-     xlim([1.1*min(X) 1.1*max(X)])
-     ylim([1.1*min(Y) 1.1*max(Y)])
-     grid on;
-     axis square;
-     title(plotname);
-end
+% G_vals = 1:0.5:5;
+% for i=1:length(G_vals)
+%      filename = ['Win_1G_' num2str(G_vals(i)) 'Q_1Winp_1Pexc_0.mat'];
+%      load(filename);
+%      plotname = ['Network ' num2str(i) ', test accuracy: ' num2str(training_output.acc)];
+%      eigenvalues = eig(training_output.weights.static);
+%      X = real(eigenvalues);
+%      Y = imag(eigenvalues);
+%      subplot(3, 3, i);
+%      scatter(X,Y, 4, '.', 'black');
+%      xlim([1.1*min(X) 1.1*max(X)])
+%      ylim([1.1*min(Y) 1.1*max(Y)])
+%      grid on;
+%      axis square;
+%      title(plotname);
+% end
 
 %For G between 1 and 10:
 
@@ -142,8 +142,35 @@ end
 %      title(plotname);
 % end
 
+%% Creates a scatter plot of the total weight change of each training trial 
+
+%For G between 1 and 10:
+
+% for i=1:10
+%      filename = ['Win_1G_' num2str(i) 'Q_1Winp_1Pexc_0#3.mat'];
+%      load(filename);
+%      plotname = ['Network ' num2str(i) ', test accuracy: ' num2str(training_output.acc)];
+%      training_trials = 1:600;
+%      subplot(2, 5, i);
+%      scatter(training_trials, training_output.weight_change, '.', 'black')
+%      title(plotname);
+% end
+
+%% Plots the output weight matrix
 
 
+%For G between 1 and 10:
+
+for i=1:10
+     filename = ['Win_1G_' num2str(i) 'Q_1Winp_1Pexc_0#3.mat'];
+     load(filename);
+     plotname = ['Network ' num2str(i) ', test accuracy: ' num2str(training_output.acc)];
+     weight_numbers = 1:2000;
+     subplot(2, 5, i);
+     scatter(weight_numbers, training_output.weights.output, '.', 'black');
+     ylim([-3 3])
+     title(plotname);
+end
 
 
 
