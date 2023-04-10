@@ -161,17 +161,50 @@
 
 %For G between 1 and 10:
 
-for i=1:10
-     filename = ['Win_1G_' num2str(i) 'Q_1Winp_1Pexc_0#3.mat'];
-     load(filename);
-     plotname = ['Network ' num2str(i) ', test accuracy: ' num2str(training_output.acc)];
-     weight_numbers = 1:2000;
-     subplot(2, 5, i);
-     scatter(weight_numbers, training_output.weights.output, '.', 'black');
-     ylim([-3 3])
-     title(plotname);
+% for i=1:10
+%      filename = ['Win_1G_' num2str(i) 'Q_1Winp_1Pexc_0#3.mat'];
+%      load(filename);
+%      plotname = ['Network ' num2str(i) ', test accuracy: ' num2str(training_output.acc)];
+%      weight_numbers = 1:2000;
+%      subplot(2, 5, i);
+%      scatter(weight_numbers, training_output.weights.output, '.', 'black');
+%      ylim([-3 3])
+%      title(plotname);
+% end
+
+%% Analyzing the reproducibility
+
+%Checking if the initialized static weights are the same
+
+% static_weights = zeros(2000, 2000, 6);
+% for i=1:6
+%     filename = ['Win_1G_5Q_1Winp_1Pexc_0_rep' num2str(i)];
+%     load(filename);
+%     static_weights(:,:,i) = training_output.weights.static;
+% end
+% 
+% for i=1:6
+%     disp(sum(sum(static_weights(:,:,1) == static_weights(:,:,i))));
+% end
+
+%Example
+% A = [1 2 3; 4 5 6; 7 8 9];
+% B = [1 2 3; 4 5 6; 7 8 9];
+% 
+% disp(sum(sum(A==B)));
+
+%Checking if the input weights are the same
+
+input_weights = zeros(2000, 200, 6);
+for i=1:6
+    filename = ['Win_1G_5Q_1Winp_1Pexc_0_rep' num2str(i)];
+    load(filename);
+    input_weights(:,:,i) = training_output.weights.input;
 end
 
+for i=1:6
+    disp(sum(sum(input_weights(:,:,1) == input_weights(:,:,i))));
+end
 
 
 
