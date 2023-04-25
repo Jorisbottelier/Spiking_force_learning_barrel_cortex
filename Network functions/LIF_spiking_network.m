@@ -29,7 +29,7 @@ tref = 2;       % refractory time period (ms)
 tau_m = 10;     % membrane time constant (ms)
 vreset = -65;   % reset potential (V)
 vthresh = -40;  % threshold potential (V) 
-rng(1);         % every time the same random distribution 
+rng(0);         % every time the same random distribution 
 
 %% Define weights
 output_weights = weights.output;
