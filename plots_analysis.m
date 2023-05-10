@@ -156,6 +156,18 @@
 %      title(plotname);
 % end
 
+%For the nonrandom test:
+
+% for i=1:6
+%      filename = ['Win_1G_5Q_1Winp_1Pexc_0_nonrand' num2str(i) '.mat'];
+%      load(filename);
+%      plotname = ['Network ' num2str(i) ', test accuracy: ' num2str(training_output.acc)];
+%      training_trials = 1:600;
+%      subplot(2, 5, i);
+%      scatter(training_trials, training_output.weight_change, '.', 'black')
+%      title(plotname);
+% end
+
 %% Plots the output weight matrix
 
 
@@ -167,6 +179,19 @@
 %      plotname = ['Network ' num2str(i) ', test accuracy: ' num2str(training_output.acc)];
 %      weight_numbers = 1:2000;
 %      subplot(2, 5, i);
+%      scatter(weight_numbers, training_output.weights.output, '.', 'black');
+%      ylim([-3 3])
+%      title(plotname);
+% end
+
+%For the nonrandom test:
+
+% for i=1:6
+%      filename = ['Win_1G_5Q_1Winp_1Pexc_0_nonrand' num2str(i) '.mat'];
+%      load(filename);
+%      plotname = ['Network ' num2str(i) ', test accuracy: ' num2str(training_output.acc)];
+%      weight_numbers = 1:2000;
+%      subplot(2, 3, i);
 %      scatter(weight_numbers, training_output.weights.output, '.', 'black');
 %      ylim([-3 3])
 %      title(plotname);
@@ -227,6 +252,19 @@
 % output_weights = zeros(2000, 1, 6);
 % for i=1:6
 %     filename = ['Win_1G_5Q_1Winp_1Pexc_0_rep' num2str(i)];
+%     load(filename);
+%     output_weights(:,:,i) = training_output.weights.output;
+% end
+% 
+% for i=1:5
+%     disp(sum(sum(output_weights(:,:,i) == output_weights(:,:,i+1))));
+% end
+
+%For the second nonrandom test they are the same:
+
+% output_weights = zeros(2000, 1, 6);
+% for i=1:6
+%     filename = ['Win_1G_5Q_1Winp_1Pexc_0_nonrand' num2str(i) '.mat'];
 %     load(filename);
 %     output_weights(:,:,i) = training_output.weights.output;
 % end
@@ -376,7 +414,7 @@
 %% 2. Zx and Z_out 
 
 % for i=1:6
-%     filename = ['Win_1G_5Q_1Winp_1Pexc_0_rep' num2str(i)];
+%     filename = ['Win_1G_5Q_1Winp_1Pexc_0_nonrand' num2str(i) '.mat'];
 %     load(filename);
 %     
 %     full_Zx = [];  % Initialize an empty array to store the concatenated result
@@ -427,17 +465,17 @@
 
 %% Checking if trail selector is reproducible (it is)
 
-file = load('trainable_trials');
-trainable_trials = file.trainable_trials;
+% file = load('trainable_trials');
+% trainable_trials = file.trainable_trials;
 
 % get the shuffled train and test trials in the ratio 1:1, prox:dist
 % [train_trials, test_trials] = trial_selector(trainable_trials.prox_touch,...
 %     trainable_trials.dist_no_touch, N_train, N_test);
 % get the fixed train and test trials; one distal and one proximal trial
-[train_trials1, test_trials1] = fixed_trial_selector(trainable_trials.prox_touch,...
-    trainable_trials.dist_no_touch, 600, 100);
-[train_trials2, test_trials2] = fixed_trial_selector(trainable_trials.prox_touch,...
-    trainable_trials.dist_no_touch, 600, 100);
+% [train_trials1, test_trials1] = fixed_trial_selector(trainable_trials.prox_touch,...
+%     trainable_trials.dist_no_touch, 600, 100);
+% [train_trials2, test_trials2] = fixed_trial_selector(trainable_trials.prox_touch,...
+%     trainable_trials.dist_no_touch, 600, 100);
 
 % disp(isequal(train_trials1, train_trials2));
 % disp(isequal(test_trials1, test_trials2));
@@ -446,24 +484,24 @@ trainable_trials = file.trainable_trials;
 %% (Now there is a nonrandom version)
 
 % load the KernelStruct
-filename = ['.' filesep 'Input' filesep 'KernelStruct.mat'];
-
-if ~exist(filename, 'file')
-    error('KernelStruct.mat is not in the input folder')
-end
-
-KernelStruct = load(filename);
-KernelStruct = KernelStruct.KernelStruct;
-
-% load the whiskmat
-filename = ['.' filesep 'Input' filesep 'whiskmat.mat'];
-
-if ~exist(filename, 'file')
-    error('whiskmat.mat is not in the input folder')
-end
-
-whiskmat = load(filename);
-whiskmat = whiskmat.filtered_whiskmat;
+% filename = ['.' filesep 'Input' filesep 'KernelStruct.mat'];
+% 
+% if ~exist(filename, 'file')
+%     error('KernelStruct.mat is not in the input folder')
+% end
+% 
+% KernelStruct = load(filename);
+% KernelStruct = KernelStruct.KernelStruct;
+% 
+% % load the whiskmat
+% filename = ['.' filesep 'Input' filesep 'whiskmat.mat'];
+% 
+% if ~exist(filename, 'file')
+%     error('whiskmat.mat is not in the input folder')
+% end
+% 
+% whiskmat = load(filename);
+% whiskmat = whiskmat.filtered_whiskmat;
 
 % create a cell of make_trial_spikes with four iterations using the same
 % input values
@@ -500,16 +538,28 @@ whiskmat = whiskmat.filtered_whiskmat;
 % end
 
 %plot the generated spikes 
-spike_train = make_trial_spikes_nonrandom(train_trials1(1).session, train_trials1(1).trial,...
-                  whiskmat, KernelStruct);
-plot(spike_train{1});
+% spike_train = make_trial_spikes_nonrandom(train_trials1(1).session, train_trials1(1).trial,...
+%                   whiskmat, KernelStruct);
+% 
+% subplot(3,1,1);
+% plot(spike_train{1,1}.ConvTrace{1});
+% subplot(3,1,2);
+% plot(spike_train{1,1}.PSTH{1});
+% subplot(3,1,3);
+% spikey = zeros(1, 2005);
+% for i=1:length(spike_train{1,1}.SpikeTimes{1,1})
+%     spikey(i) = 1;
+% end
+% disp(spike_train{1,1}.SpikeTimes{1,1});
+% plot(spikey);
+
 
 
 
 %% make_trial_spikes uses dynamic_spike_maker, check if this function is deterministic:
 
 % 1. Check if dynamic_spike_maker is deterministic:
-% (It is not)
+% (It is not, however the _nonrandom version is)
 
 % % load the KernelStruct
 % filename = ['.' filesep 'Input' filesep 'KernelStruct.mat'];
